@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="492.0" prefWidth="371.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="git.markvn2.controllers.StudentsController">
+   <children>
+      <VBox fx:id="vb_students" layoutX="25.0" layoutY="24.0" prefHeight="362.0" prefWidth="326.0" style="-fx-border-color: black;" />
+      <Button fx:id="btn_delete" layoutX="37.0" layoutY="403.0" mnemonicParsing="false" text="Delete" />
+      <Button fx:id="btn_history" layoutX="119.0" layoutY="403.0" mnemonicParsing="false" text="History" />
+      <Button fx:id="btn_new" layoutX="288.0" layoutY="403.0" mnemonicParsing="false" text="Add" />
+      <Button fx:id="btn_edit" layoutX="210.0" layoutY="403.0" mnemonicParsing="false" text="Edit" />
+   </children>
+</AnchorPane>
