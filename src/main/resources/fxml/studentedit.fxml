@@ -11,8 +11,8 @@
       <TextField fx:id="tf_name" layoutX="84.0" layoutY="86.0" />
       <TextField fx:id="tf_weight" layoutX="84.0" layoutY="287.0" />
       <Label layoutX="87.0" layoutY="70.0" text="Name" />
-      <Button fx:id="btn_return" layoutX="58.0" layoutY="334.0" mnemonicParsing="false" text="Retornar" />
-      <Button fx:id="btn_edit" layoutX="233.0" layoutY="334.0" mnemonicParsing="false" text="Editar" />
+      <Button fx:id="btn_return" layoutX="58.0" layoutY="334.0" mnemonicParsing="false" text="Return" />
+      <Button fx:id="btn_edit" layoutX="233.0" layoutY="334.0" mnemonicParsing="false" text="Edit" />
       <Label layoutX="88.0" layoutY="120.0" text="CPF" />
       <Label layoutX="89.0" layoutY="171.0" text="Date of birth" />
       <Label layoutX="88.0" layoutY="221.0" text="Height" />

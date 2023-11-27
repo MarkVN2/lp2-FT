@@ -5,7 +5,9 @@ import git.markvn2.utils.DBUtils;
 import git.markvn2.utils.GUIUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -32,6 +34,8 @@ public class StudentsController implements Initializable {
     private Button btn_history;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        Alert CONFIRMATION = new Alert(Alert.AlertType.CONFIRMATION);
 
         Label lb_cpf = new Label("CPF");
         lb_cpf.setPrefWidth(80);
@@ -63,21 +67,26 @@ public class StudentsController implements Initializable {
             hb_entry.onMouseClickedProperty().set((MouseEvent t)->{
 
                 if (selected != null){
-                    selected.getStyleClass().clear();
+                    selected.setStyle("-fx-background-color:WHITE;");
                 }
+                hb_entry.setStyle("-fx-background-color: GRAY;");
                 this.selected = hb_entry;
             });
         }
 
         btn_new.setOnAction(event -> {
-            GUIUtils.changeScene(event,"/fxml/studentform.fxml","Add Students");
+            GUIUtils.changeScene(event,"/fxml/studentform.fxml","New Student Form");
         });
         btn_delete.setOnAction(event -> {
-            if (selected != null) {
-                selectedCPF = ((Label) selected.getChildren().get(0)).getText();
-                DBUtils.deleteStudent(selectedCPF);
-                vb_students.getChildren().remove(selected);
-            }
+            CONFIRMATION.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    if (selected != null) {
+                        selectedCPF = ((Label) selected.getChildren().get(0)).getText();
+                        DBUtils.deleteStudent(selectedCPF);
+                        vb_students.getChildren().remove(selected);
+                    }
+                }
+            });
         });
         btn_edit.setOnAction(event -> {
             if (selected != null) {

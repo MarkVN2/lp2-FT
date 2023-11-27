@@ -9,9 +9,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource("/fxml/studentform.fxml"));
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("/fxml/students.fxml"));
         Scene scene = new Scene(loader.load());
-        primaryStage.setTitle("New Student Form");
+        primaryStage.setTitle("Students");
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();

@@ -50,7 +50,7 @@ public class StudentEditController implements Initializable {
         tf_weight.setText(String.valueOf(local.getWeight()));
 
         btn_return.setOnAction(event -> {
-            GUIUtils.changeScene(event, "/fxml/students.fxml", "students");
+            GUIUtils.changeScene(event, "/fxml/students.fxml", "Students");
         });
         btn_edit.setOnAction(event -> {
 
@@ -58,12 +58,12 @@ public class StudentEditController implements Initializable {
             String cpf = tf_cpf.getText();
             LocalDate birthday = dp_birth.getValue();
             float weight = Float.parseFloat(tf_weight.getText());
-            float height = Float.parseFloat(tf_height.getText());
+            float height = (float) (Float.parseFloat(tf_height.getText()) * Math.pow(10,-2));
 
             Aluno new_student = new Aluno(cpf,name,birthday,weight,height);
 
             DBUtils.updateStudent(new_student);
-            GUIUtils.changeScene(event, "/fxml/students.fxml", "students");
+            GUIUtils.changeScene(event, "/fxml/students.fxml", "Students");
         });
     }
 }

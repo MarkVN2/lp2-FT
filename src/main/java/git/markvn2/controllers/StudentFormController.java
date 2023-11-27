@@ -34,7 +34,7 @@ public class StudentFormController implements Initializable {
 
 
         btn_return.setOnAction(event -> {
-            GUIUtils.changeScene(event, "/fxml/students.fxml", "students");
+            GUIUtils.changeScene(event, "/fxml/students.fxml", "Students");
         });
         btn_add.setOnAction(event -> {
             if(tf_cpf.getText().matches("([0-9]{3}[.]?[0-9]{3}[.]?[0-9]{3}[-]?[0-9]{2})")){
@@ -47,7 +47,7 @@ public class StudentFormController implements Initializable {
             Aluno new_student = new Aluno(cpf,name,birthday,weight,height);
 
             DBUtils.addStudent(new_student);
-            GUIUtils.changeScene(event, "/fxml/students.fxml", "students");
+            GUIUtils.changeScene(event, "/fxml/students.fxml", "Students");
             }
             else {
                 System.out.println("INVALID CPF");

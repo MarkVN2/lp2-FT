@@ -2,7 +2,7 @@ package git.markvn2.keys;
 
 public class DBKeys {
     private static String SQLUser = "root";
-    private static String SQLPassword = "markos";
+    private static String SQLPassword = "PASSWORD";
 ;
     private static String SQLDatabase = "jdbc:mysql://localhost:3306/lp2";
 

@@ -42,21 +42,13 @@ public class DBUtils {
     }
 
     public static void deleteStudent(String cpf) {
-
-        String registrysql = "delete from registry where cpf=?";
         String sql = "delete from students where cpf=?";
         try {
 
             Connection connection = getConnection();
 
-            PreparedStatement registry_stmt = connection.prepareStatement(registrysql);
-            registry_stmt.setString(1, cpf);
-
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, cpf);
-
-            registry_stmt.execute();
-            registry_stmt.close();
 
             stmt.execute();
             stmt.close();
@@ -173,7 +165,7 @@ public class DBUtils {
         }
     }
     public static void updateEntry(HistoricoPeso hscpeso) {
-        String sql = "update registry set entry_date=?, weight=?, height=?, imc=? where cpf=?";
+        String sql = "update registry set entry_date=?, weight=?, height=?, imc=? where entry_id=?";
         try {
 
             Connection connection = getConnection();
@@ -183,7 +175,7 @@ public class DBUtils {
             stmt.setFloat(2, hscpeso.getStudent().getWeight());
             stmt.setFloat(3, hscpeso.getStudent().getHeight());
             stmt.setDouble(4, hscpeso.getIMC());
-            stmt.setString(5, hscpeso.getStudent().getCPF());
+            stmt.setInt(5, hscpeso.getEntryId());
 
             stmt.execute();
             stmt.close();
@@ -194,13 +186,13 @@ public class DBUtils {
         }
     }
     public static void deleteEntry(HistoricoPeso hscpeso) {
-        String sql = "delete from registry where cpf=?";
+        String sql = "delete from registry where entry_id=?";
         try {
 
             Connection connection = getConnection();
             PreparedStatement stmt = connection.prepareStatement(sql);
 
-            stmt.setString(1, hscpeso.getStudent().getCPF());
+            stmt.setInt(1, hscpeso.getEntryId());
 
             stmt.execute();
             stmt.close();
@@ -210,8 +202,33 @@ public class DBUtils {
             throw new RuntimeException(exception);
         }
     }
+    public static HistoricoPeso getEntry(int id){
+        String sql = "select * from registry where entry_id=?";
+        HistoricoPeso entry = null;
+        try{
+            Connection connection = getConnection();
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (!rs.isBeforeFirst()){
+                System.out.println("Entries not found");
+            }else{
+                while(rs.next()){
+                    String cpf = rs.getString("cpf");
+                    LocalDate entry_date = rs.getDate("entry_date").toLocalDate();
+                    int entry_id = rs.getInt("entry_id");
+
+                    entry = new HistoricoPeso(DBUtils.getStudent(cpf),entry_date,entry_id);
+                }
+            }
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return entry;
+    }
     public static List<HistoricoPeso> getAllEntries(){
-        String sql = "select entry_date,cpf,weight,height from registry";
+        String sql = "select entry_id,entry_date,cpf,weight,height from registry";
         List<HistoricoPeso> entries = new ArrayList<>();
         try{
             Connection connection = getConnection();
@@ -226,11 +243,13 @@ public class DBUtils {
                     String cpf = rs.getString("cpf");
                     Float weight = Float.valueOf(rs.getString("weight"));
                     Float height = Float.valueOf(rs.getString("height"));
+                    int id = rs.getInt("entry_id");
+
                     Aluno student = getStudent(cpf);
                     Aluno entry_student = new Aluno(student.getCPF(), student.getName(), student.getBirthdate(),weight,height);
                     LocalDate entrydate = rs.getDate("entry_date").toLocalDate();
 
-                    entries.add(new HistoricoPeso(entry_student,entrydate,0));
+                    entries.add(new HistoricoPeso(entry_student,entrydate,id));
                 }
             }
         }catch (SQLException e){

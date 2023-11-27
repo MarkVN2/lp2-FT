@@ -11,6 +11,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class HistoryEditController implements Initializable {
@@ -32,7 +33,7 @@ public class HistoryEditController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        HistoricoPeso hsc = StudentsController.selectedCPF;
+       HistoricoPeso hsc = DBUtils.getEntry(HistoryController.entry_id);
 
         tf_name.setText(hsc.getStudent().getName());
         tf_name.setEditable(false);
@@ -44,11 +45,26 @@ public class HistoryEditController implements Initializable {
 
         dp_entry.setValue(hsc.getEntryDate());
 
-        tf_height.setText(String.valueOf(hsc.getStudent().getHeight()));
-        tf_weight.setText(String.valueOf(hsc.getStudent().getWeight()));
+        tf_height.setText(String.valueOf(hsc.getStudent().getHeight() )) ;
+        tf_weight.setText(String.valueOf(hsc.getStudent().getWeight() ));
 
         btn_return.setOnAction(event -> {
-            GUIUtils.changeScene(event, "/fxml/history.fxml", "Student history");
+            GUIUtils.changeScene(event, "/fxml/history.fxml", "Student History");
+        });
+
+        btn_edit.setOnAction(event -> {
+            Aluno oldstudent = DBUtils.getStudent(tf_cpf.getText());
+            float weight = Float.parseFloat(tf_weight.getText());
+            float height = (float) (Float.parseFloat(tf_height.getText()) * Math.pow(10,-2));
+
+            dp_entry.setValue(LocalDate.now());
+
+            tf_height.setText(null) ;
+            tf_weight.setText(null);
+
+            Aluno student = new Aluno(oldstudent.getCPF(),oldstudent.getName(),oldstudent.getBirthdate(),weight,height);
+            HistoricoPeso updated_hisc = new HistoricoPeso(student,dp_entry.getValue(),HistoryController.entry_id);
+            DBUtils.updateEntry(updated_hisc);
         });
     }
 }
