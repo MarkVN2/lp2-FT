@@ -61,7 +61,7 @@ public class HistoricoPeso {
         }
         FileWriter wrt = new FileWriter(archive, true);
         BufferedWriter bw = new BufferedWriter(wrt);
-        bw.write("| CPF | IMC | NAME | DATE | INTERPRETATION |");
+        bw.write("| CPF | IMC | NAME | DATE | INTERPRETATION | WEIGHT");
         bw.newLine();
         bw.close();
         return archive;
@@ -73,6 +73,7 @@ public class HistoricoPeso {
         String name = this.getStudent().getName();
         String date = this.entryDate.format(DateTimeFormatter.ofPattern("MM/dd/YYYY"));
         String interpretation = processIMC(imc);
+        Float weight = this.getStudent().getWeight();
 
 
 
@@ -82,7 +83,7 @@ public class HistoricoPeso {
         FileWriter wrt = new FileWriter(archive, true);
         BufferedWriter bw = new BufferedWriter(wrt);
 
-        bw.write(String.format("/ %s / %s / %s / %s / %s ", cpf, imc , name , date , interpretation ));
+        bw.write(String.format("/ %s / %s / %s / %s / %s / %s", cpf, imc , name , date , interpretation, weight ));
         bw.newLine();
 
         bw.close();

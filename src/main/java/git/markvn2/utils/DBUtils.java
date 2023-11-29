@@ -20,7 +20,7 @@ public class DBUtils {
     }
 
     public static void addStudent(Aluno aluno) {
-        String sql = "INSERT INTO students(cpf,student_name,birth_date,weight,height) VALUES(?,?,?,?,?)";
+        String sql = "insert into students(cpf,student_name,birth_date,weight,height) values(?,?,?,?,?)";
         try {
 
             Connection connection = getConnection();
@@ -215,11 +215,16 @@ public class DBUtils {
                 System.out.println("Entries not found");
             }else{
                 while(rs.next()){
+
                     String cpf = rs.getString("cpf");
                     LocalDate entry_date = rs.getDate("entry_date").toLocalDate();
                     int entry_id = rs.getInt("entry_id");
+                    float weight = rs.getFloat("weight");
+                    float height = rs.getFloat("height");
+                    Aluno oldstudent =  DBUtils.getStudent(cpf);
+                    Aluno student = new Aluno(cpf,oldstudent.getName(),oldstudent.getBirthdate(),weight,height);
 
-                    entry = new HistoricoPeso(DBUtils.getStudent(cpf),entry_date,entry_id);
+                    entry = new HistoricoPeso(student,entry_date,entry_id);
                 }
             }
         }catch (SQLException e){
